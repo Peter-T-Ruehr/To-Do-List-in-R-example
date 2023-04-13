@@ -12,7 +12,6 @@ data <- read_sheet(sheet_id, sheet = 1)
 
 data.present <- data %>% 
   drop_na(group, start, end) %>% 
-  filter(is.na(finished)) %>% 
   mutate(color = case_when(priority == 1 ~ "red",
                            priority == 2 ~ "yellow",
                            priority == 3 ~ "green")) %>% 
@@ -58,7 +57,7 @@ server <- function(input, output) {
     
     output$table_print <- renderDataTable({df <- reactiveVal(data.present)
     data.present %>% 
-      select(-c(finished, color))},
+      select(-c(color))},
     options = list(pageLength = 1000,
                    searching = FALSE,
                    lengthChange = FALSE))
